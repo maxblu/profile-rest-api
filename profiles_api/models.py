@@ -2,8 +2,11 @@ from django.db import models
 #necesario para usar el sistema de usuarios de django y modificarlo override
 from django.contrib.auth.models import AbstractBaseUser
 from django.contrib.auth.models import PermissionsMixin
+from django.conf import settings
 
 from django.contrib.auth.models import BaseUserManager
+from django.db.models.base import Model
+from django.db.models.fields import CharField
 # Create your models here.
 
 
@@ -70,6 +73,23 @@ class UserProfile(AbstractBaseUser,PermissionsMixin):
 
 
 
+class ProfileFeedItem(models.Model):
+    """
+    Profile status update
+    """
+    
+    user_profile = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.CASCADE,
+     )
+
+    status_text = models.CharField(max_length=255)
+    created_on = models.DateTimeField(auto_now=True)
+
+    def __str__ (self):
+        """ return model as string"""
+
+        return self.status_text
 
 
 

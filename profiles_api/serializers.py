@@ -1,3 +1,4 @@
+from django.conf import settings
 from rest_framework import serializers
 
 from profiles_api import models
@@ -48,3 +49,18 @@ class UserProfileSerializer(serializers.ModelSerializer ):
             instance.set_password(password)
  
         return super().update(instance, validated_data)
+
+
+class ProfileFeedItemSerializer(serializers.ModelSerializer):
+    """
+    Serialize a feed item of a profile
+    """
+    
+    class Meta:
+        model = models.ProfileFeedItem
+        fields = ['id','user_profile','status_text','created_on']
+
+        extra_kwargs = {
+            'user_profile':{'read_only' :True}
+        }
+
